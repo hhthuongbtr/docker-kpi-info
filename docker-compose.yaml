@@ -11,9 +11,9 @@ services:
       MYSQL_USER: 'root'
       MYSQL_PASSWORD: 'idktestpasswd'
       MYSQL_ROOT_PASSWORD: 'idktestpasswd'
-  django:
-    container_name: "kpi-info-django"
-    build: .django
+  python:
+    container_name: "kpi-info-python"
+    build: .python
     volumes:
       - ./kpi-info:/var/www/html
     working_dir: /var/www/html
@@ -29,6 +29,6 @@ services:
       - ./kpi-info:/var/www/html
     working_dir: /var/www/html
     depends_on:
-      - django
+      - python
   certbot:
     image: certbot/certbot
