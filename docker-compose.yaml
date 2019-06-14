@@ -1,21 +1,31 @@
-version: '1'
+version: '3.7'
 
 services:
-  db:
-    image: mysql:5.7
+  mariadb:
+    container_name: "kpi-info-mariadb"
+    image: .mariadb
     ports:
       - '3306:3306'
     environment:
-       MYSQL_DATABASE: 'kpi-info'
-       MYSQL_USER: 'root'
-       MYSQL_PASSWORD: 'password'
-       MYSQL_ROOT_PASSWORD: 'password'
-  web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+      MYSQL_DATABASE: 'kpi-info'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'idktestpasswd'
+      MYSQL_ROOT_PASSWORD: 'idktestpasswd'
+  django:
+    container_name: "kpi-info-django"
+    build: .django
     volumes:
-      - .:/kpi-info
-    ports:
-      - "8000:8000"
+      - ./kpi-info:/var/www/html
+    working_dir: /var/www/html
     depends_on:
-      - db
+      - mariadb
+  nginx:
+    container_name: "kpi-info-nginx"
+    build: ./nginx
+    port:
+      - "80:80"
+    volumes:
+      - ./kpi-info:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - django
