@@ -1,34 +1,53 @@
 version: '3.7'
 
+#services:
+#  mariadb:
+#    container_name: "kpi-info-mariadb"
+#    build: .mariadb
+#    ports:
+#      - '3306:3306'
+#    environment:
+#      MYSQL_DATABASE: 'kpi-info'
+#      MYSQL_USER: 'root'
+#      MYSQL_PASSWORD: 'idktestpasswd'
+#      MYSQL_ROOT_PASSWORD: 'idktestpasswd'
+#  python:
+#    container_name: "kpi-info-python"
+#    build: .python
+#    volumes:
+#      - ./kpi-info:/var/www/html
+#    working_dir: /var/www/html
+#    depends_on:
+#      - mariadb
+#  apache:
+#    container_name: "kpi-info-apache"
+#    build: ./apache
+#    port:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - ./kpi-info:/var/www/html
+#    working_dir: /var/www/html
+#    depends_on:
+#      - python
+#  certbot:
+#    image: certbot/certbot
+
 services:
-  mariadb:
-    container_name: "kpi-info-mariadb"
-    image: .mariadb
-    ports:
-      - '3306:3306'
-    environment:
-      MYSQL_DATABASE: 'kpi-info'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: 'idktestpasswd'
-      MYSQL_ROOT_PASSWORD: 'idktestpasswd'
-  python:
-    container_name: "kpi-info-python"
-    build: .python
-    volumes:
-      - ./kpi-info:/var/www/html
-    working_dir: /var/www/html
-    depends_on:
-      - mariadb
-  nginx:
-    container_name: "kpi-info-nginx"
-    build: ./nginx
-    port:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./kpi-info:/var/www/html
-    working_dir: /var/www/html
-    depends_on:
-      - python
-  certbot:
-    image: certbot/certbot
+    apache:
+        container_name: "kpi-info-apache"
+        image: httpd:2.4
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./kpi_info:/var/www/html
+        working_dir: /var/www/html
+    python:
+        container_name: "kpi-info-python"
+        build: ./python
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./kpi_info:/var/www/html
+        working_dir: /var/www/html
