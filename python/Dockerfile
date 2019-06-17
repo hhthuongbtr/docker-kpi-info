@@ -1,8 +1,5 @@
-FROM python:3.7
-
-WORKDIR /var/www/html
-COPY requirements.txt ./
-RUN pip install -r requirements.txt
-
-EXPOSE 8000
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+FROM python:3.7.3-stretch
+COPY requirements.txt /
+RUN pip install -r /requirements.txt
+WORKDIR /usr/share/nginx/html
+CMD ["uwsgi", "--ini", "/usr/share/nginx/html/kpi_info_uwsgi.ini"]
