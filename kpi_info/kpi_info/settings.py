@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'kpi_info.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kpi-info',
+        'USER': 'root',
+        'PASSWORD': 'idktestpasswd',
+        'HOST': 'kpi-info-mariadb',
+        'PORT': 3306,
     }
 }
 
