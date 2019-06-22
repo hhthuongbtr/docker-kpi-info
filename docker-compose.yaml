@@ -28,6 +28,8 @@ services:
             MYSQL_USER: 'root'
             MYSQL_PASSWORD: 'idktestpasswd'
             MYSQL_ROOT_PASSWORD: 'idktestpasswd'
+        volumes:
+            - ./mariadb/data:/var/lib/mysql
     certbot:
         image: certbot/certbot
 
