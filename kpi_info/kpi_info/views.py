@@ -15,8 +15,8 @@ class HomeView(View):
 
 def get_data(request, *args, **kwargs):
     data = {
-        "sales": 100,
-        "customers": 10,
+        "game": 'test',
+        "players": 100,
     }
     return JsonResponse(data)
 
@@ -25,9 +25,8 @@ class ChartData(APIView):
     permission_classes = []
 
     def get(self, request, format=None):
-        qs_count = User.objects.all().count()
-        labels = ["Users", "Blue", "Yellow", "Green", "Purple", "Orange"]
-        default_items = [qs_count, 23, 2, 3, 12, 2]
+        labels = ["Games", "Boom", "Khu Vuon Tren May", "Tien Kiem", "AutoChess", "PUBG"]
+        default_items = [34, 23, 15, 19, 41, 30]
         data = {
                 "labels": labels,
                 "default": default_items,

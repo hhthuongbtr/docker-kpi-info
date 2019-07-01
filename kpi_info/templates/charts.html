@@ -64,7 +64,7 @@ function setChart(){
     data: {
         labels: labels,
         datasets: [{
-            label: '# of Votes',
+            label: 'Current Players',
             data: defaultData,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -107,15 +107,13 @@ function setChart(){
 
 <div class='row'>
     <div class='col-sm-12' url-endpoint='{% url "api-data" %}'>
-        <h1>Hello World</h1>
+        <h1>Game Data</h1>
         <div class='col-sm-6'>
             <canvas id="myChart" width="400" height="400"></canvas>
         </div>
         <div class='col-sm-6'>
             <canvas id="myChart2" width="400" height="400"></canvas>
         </div>
-
-
     </div>
 </div>
 
