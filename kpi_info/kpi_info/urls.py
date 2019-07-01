@@ -16,7 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from .views import HomeView, get_data, ChartData
+
 urlpatterns = [
+    path('chart/', HomeView.as_view(), name='home'),
+    path('chart/api/data/', get_data, name='api-data'),
+    path('chart/api/chart/data/', ChartData.as_view()),
     path('jet/', include('jet.urls', 'jet')),
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),

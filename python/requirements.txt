@@ -3,3 +3,4 @@ uwsgi==2.0.18
 mysqlclient==1.4.2
 django-jet==1.0.8
 feedparser==5.2.1
+djangorestframework==3.9.4
