@@ -3,21 +3,6 @@ version: '3.7'
 # the web client <-> the web server <-> the socket <-> uwsgi <-> Django
 
 services:
-    nginx:
-        container_name: "kpi-info-nginx"
-        build: ./nginx
-        ports:
-            - "80:80"
-            - "443:443"
-        volumes:
-            - ./kpi_info:/usr/share/nginx/html
-        working_dir: /usr/share/nginx/html
-    python:
-        container_name: "kpi-info-python"
-        build: ./python
-        volumes:
-            - ./kpi_info:/usr/share/nginx/html
-        working_dir: /usr/share/nginx/html
     mariadb:
         container_name: "kpi-info-mariadb"
         build: ./mariadb
@@ -28,6 +13,27 @@ services:
             MYSQL_USER: 'root'
             MYSQL_PASSWORD: 'idktestpasswd'
             MYSQL_ROOT_PASSWORD: 'idktestpasswd'
+    python:
+        container_name: "kpi-info-python"
+        build: ./python
+        volumes:
+            - ./kpi_info:/usr/share/nginx/html
+        working_dir: /usr/share/nginx/html
+        depends_on:
+            - mariadb
+    nginx:
+        container_name: "kpi-info-nginx"
+        build: ./nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./kpi_info:/usr/share/nginx/html
+        working_dir: /usr/share/nginx/html
+        depends_on:
+            - python
     certbot:
         image: certbot/certbot
+        depends_on:
+            - nginx
 
