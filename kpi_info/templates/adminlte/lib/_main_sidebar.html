@@ -1,0 +1,53 @@
+{% extends 'adminlte/lib/_main_sidebar.html' %}
+{% block user_panel %}{% endblock %}
+{% block nav_heading %}Dashboard{% endblock %}
+{% block nav_links %}
+    <li><a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+    <li class="treeview">
+        <a href="#"><i class="fa fa-bar-chart"></i> <span>Game KPI</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="#"><i class="fa fa-circle-o"></i> Monthly Report</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Daily Report</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Hourly Report</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Cohort Rentation</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Export</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#"><i class="fa fa-mobile"></i> <span>Mobile Report</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="#"><i class="fa fa-circle-o"></i> Mobile OS</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Installed Packages</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Export</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#"><i class="fa fa-server"></i> <span>Group KPI</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="#"><i class="fa fa-circle-o"></i> Country KPI</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Login Channel</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#"><i class="fa fa-book"></i> <span>Documents</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="#"><i class="fa fa-circle-o"></i> KPI Document</a></li>
+        </ul>
+    </li>
+{% endblock %}
