@@ -6,10 +6,12 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
     <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
     <script type="text/javascript">
-        $.get('{% url "chart-json" %}', function(data) {
+        $.get('{% url "chart-json" %}', function(chartjson) {
             var ctx = $("#myChart").get(0).getContext("2d");
             new Chart(ctx, {
-                type: 'line', data: data
+                type: 'bar',
+                data: chartjson.data,
+                options: chartjson.options
             });
         });
     </script>
