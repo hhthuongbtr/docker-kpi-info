@@ -1,3 +1,5 @@
 from django.db import models
 
-# Create your models here.
+class Revenue(models.Model):
+    money = models.IntegerField()
+    datetime = models.DateTimeField()
