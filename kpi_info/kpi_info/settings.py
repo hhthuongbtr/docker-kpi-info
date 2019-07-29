@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'dashboard',
     'django_adminlte',
     'django_adminlte_theme',
     'django.contrib.admin',
