@@ -19,26 +19,6 @@ COLORS = [
 ]
 
 def next_color(color_list=COLORS):
-    """Create a different color from a base color list.
-
-    >>> color_list = (
-    ...    (122, 159, 191),  # Light blue
-    ...    (202, 201, 197),  # Light gray,
-    ... )
-    >>> g = next_color(color_list)
-    >>> next(g)
-    [122, 159, 191]
-    >>> next(g)
-    [202, 201, 197]
-    >>> next(g)
-    [63, 100, 132]
-    >>> next(g)
-    [143, 142, 138]
-    >>> next(g)
-    [4, 41, 73]
-    >>> next(g)
-    [84, 83, 79]
-    """
     step = 0
     while True:
         for color in color_list:
@@ -49,7 +29,7 @@ class ChartJSONView(BaseLineOptionsChartView): # BaseLineOptionsChartView alread
                                                # BaseLineChartView, ChartJSONView just inherits
                                                # from BaseLineOptionsChartView
     def get_labels(self):
-        return [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 ]
+        return list(range(0, 23))
 
     def get_providers(self):
         return ["31/06/2019", "01/07/2019"]
