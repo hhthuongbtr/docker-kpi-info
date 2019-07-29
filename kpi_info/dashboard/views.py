@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from chartjs.views.lines import BaseLineOptionsChartView
+from chartjs.views.lines import BaseLineChartView
 
 def dashboard(request):
     return render(request, 'dashboard/index.html')
@@ -25,11 +25,9 @@ def next_color(color_list=COLORS):
             yield list(map(lambda base: (base + step) % 256, color))
         step += 197
 
-class ChartJSONView(BaseLineOptionsChartView): # BaseLineOptionsChartView already inherits
-                                               # BaseLineChartView, ChartJSONView just inherits
-                                               # from BaseLineOptionsChartView
+class ChartJSONView(BaseLineChartView):
     def get_labels(self):
-        return list(range(0, 23))
+        return list(range(0, 24))
 
     def get_providers(self):
         return ["31/06/2019", "01/07/2019"]
@@ -62,6 +60,3 @@ class ChartJSONView(BaseLineOptionsChartView): # BaseLineOptionsChartView alread
 
     def get_colors(self):
         return next_color()
-
-    def get_options(self):
-        return {"scales": {"xAxes": [{"stacked": True}],"yAxes": [{"stacked": True}]}}
