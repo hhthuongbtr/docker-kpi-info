@@ -6,16 +6,8 @@ def dashboard(request):
     return render(request, 'dashboard/index.html')
 
 COLORS = [
-    (202, 201, 197),  # Light gray
-    (171, 9, 0),      # Red
-    (166, 78, 46),    # Light orange
-    (255, 190, 67),   # Yellow
-    (163, 191, 63),   # Light green
-    (122, 159, 191),  # Light blue
-    (140, 5, 84),     # Pink
-    (166, 133, 93),   # Light brown
-    (75, 64, 191),    # Red blue
-    (237, 124, 60),    # orange
+    (210, 214, 222),  # Light gray
+    (60, 141, 188),   # Blue
 ]
 
 def next_color(color_list=COLORS):
@@ -30,7 +22,7 @@ class ChartJSONView(BaseLineChartView):
         return list(range(0, 24))
 
     def get_providers(self):
-        return ["31/06/2019", "01/07/2019"]
+        return ["31/06/2019 hourly", "31/06/2019 total", "01/07/2019 hourly", "01/07/2019 total"]
 
     def get_datasets(self):
         datasets = []
@@ -40,15 +32,17 @@ class ChartJSONView(BaseLineChartView):
         num = len(providers)
         for i, entry in enumerate(data):
             color = tuple(next(color_generator))
-            dataset = {'backgroundColor': "rgba(%d, %d, %d, 0.5)" % color,
-                       'borderColor': "rgba(%d, %d, %d, 1)" % color,
+            dataset = {'borderColor': "rgba(%d, %d, %d, 1)" % color,
                        'pointBackgroundColor': "rgba(%d, %d, %d, 1)" % color,
                        'pointBorderColor': "#fff",
                        'data': entry}
+            dataset['backgroundColor'] = dataset['borderColor']
+            dataset['pointBackgroundColor'] = dataset['pointBorderColor']
             if i < num:
                 dataset['label'] = providers[i]  # series labels for Chart.js
             if i % 2 == 1:
                 dataset['type'] = "line"
+                dataset['fill'] = False
             datasets.append(dataset)
         return datasets
 
