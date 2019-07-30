@@ -6,7 +6,7 @@ import datetime
 
 
 class Command(BaseCommand):
-    help = 'Closes the specified poll for voting'
+    help = 'Parse data from CSV log file'
 
     def handle(self, *args, **options):
         logfile = open('data/nikki/20190701/2019-06-02/nikkisea_datalog_chargelog_hourly/Nikki_Logcharge_2019-06-01-00.csv', encoding="latin-1")
