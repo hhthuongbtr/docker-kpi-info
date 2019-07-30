@@ -15,7 +15,12 @@ class Command(BaseCommand):
         revenue = Revenue()
 
         for row in log:
+            revenue.id = row["transid"]
             revenue.money = row["money"]
-            revenue.datetime = datetime.datetime.strptime("2019-05-31 23:24:29", '%Y-%m-%d %H:%M:%S')
+            datetime_from_transid = revenue.id[:revenue.id.find("-")]
+            revenue.datetime = datetime.datetime.strptime(datetime_from_transid, '%Y%m%d%H%M%S')
             revenue.save()
+            print(revenue.id)
+            print(revenue.money)
+            print(revenue.datetime)
             print(Revenue.objects.aggregate(Sum('money')))
