@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
+from .models import Revenue
+from datetime import datetime, timedelta
 
 def dashboard(request):
     return render(request, 'dashboard/index.html')
@@ -47,10 +49,26 @@ class ChartJSONView(BaseLineChartView):
         return datasets
 
     def get_data(self):
-        return [[18208, 2278, 19117, 3187, 20025, 20934, 5004, 21843, 5913, 22751, 6821, 23660, 7730, 24568, 25477, 9547, 26386, 10456, 27294, 11365, 28203, 12273, 29111, 13182, 25052], 
-                [6280, 23119, 7189, 24027, 8097, 24936, 25844, 9915, 26753, 10823, 11732, 28570, 12641, 29479, 13549, 30387, 14458, 31296, 15366, 32205, 16275, 345, 17184, 1254, 19484],
-                [28938, 13008, 29846, 13917, 30755, 14825, 31663, 15734, 32572, 16642, 713, 17551, 1621, 18460, 2530, 19368, 3439, 20277, 4347, 21185, 5256, 22094, 6164, 23003, 26212],
-                [26405, 10476, 27314, 11384, 28223, 12293, 29131, 13202, 30040, 14110, 30948, 15019, 31857, 15927, 32766, 16836, 906, 17745, 1815, 18653, 2724, 19562, 3632, 20470, 22771],]
+        day1 = datetime.strptime('2019-06-01 00:00:00', '%Y-%m-%d %H:%M:%S')
+        day2 = datetime.strptime('2019-05-31 00:00:00', '%Y-%m-%d %H:%M:%S')
+        return [self.get_day_hourly_data(day1),
+                self.get_day_hourly_data(day2),]
+                # [6280, 23119, 7189, 24027, 8097, 24936, 25844, 9915, 26753, 10823, 11732, 28570, 12641, 29479, 13549, 30387, 14458, 31296, 15366, 32205, 16275, 345, 17184, 1254, 19484],
+                # [28938, 13008, 29846, 13917, 30755, 14825, 31663, 15734, 32572, 16642, 713, 17551, 1621, 18460, 2530, 19368, 3439, 20277, 4347, 21185, 5256, 22094, 6164, 23003, 26212],
+                # [26405, 10476, 27314, 11384, 28223, 12293, 29131, 13202, 30040, 14110, 30948, 15019, 31857, 15927, 32766, 16836, 906, 17745, 1815, 18653, 2724, 19562, 3632, 20470, 22771],]
+
+    def get_hourly_data(self, datetime):
+        revenue = Revenue()
+        return revenue.get_from_range(datetime, datetime + timedelta(hours=1))
+
+    # Get list of hourly revenue from 0h to 24h of a specific day
+    def get_day_hourly_data(self, datetime):
+        day_hourly = []
+        for i in range(24):
+            hourly_revenue = self.get_hourly_data(datetime + timedelta(hours=i))
+            print(hourly_revenue)
+            day_hourly.append(hourly_revenue)
+        return day_hourly
 
     def get_colors(self):
         return next_color()

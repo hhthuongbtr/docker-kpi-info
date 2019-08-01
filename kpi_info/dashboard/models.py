@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import Sum
-from datetime import datetime, timedelta
+import datetime
 
 class Revenue(models.Model):
     id = models.CharField(max_length=100, primary_key=True, verbose_name='ID')
@@ -15,14 +15,3 @@ class Revenue(models.Model):
             hourly_revenue = Sum('money')
         )
         return sum(transaction.money for transaction in transaction_in_range)
-
-    # Get total revenue in specific hour of specific day
-    def get_hourly(self, date, time):
-        values = self.model.objects.filter(
-            datetime__range=(date, time)
-        ).values('datetime').annotate(data_sum=Sum('data'))
-        return "12345"
-
-    # Get total revenue from 00:00 to a specific hour of the day
-    def get_day_total_at_hour(self, date, time):
-        return "54321"
