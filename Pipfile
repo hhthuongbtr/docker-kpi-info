@@ -12,6 +12,7 @@ django-adminlte2 = "*"
 django-chartjs = "*"
 django-jquery = "*"
 django-view-breadcrumbs = "*"
+django-bootstrap-datepicker-plus = "*"
 
 [requires]
 python_version = "3.7"
