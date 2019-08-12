@@ -3,9 +3,11 @@ from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
 from .models import Revenue
 from datetime import datetime, timedelta
+from .forms import DateForm
 
 def dashboard(request):
-    return render(request, 'dashboard/index.html')
+    form = DateForm()
+    return render(request, 'dashboard/index.html', {'form': form})
 
 COLORS = [
     (210, 214, 222),  # Light gray
