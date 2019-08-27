@@ -1,13 +1,6 @@
 {% extends 'adminlte/base.html' %}
 {% block content %}
 {% load staticfiles %}
-    {{ form.media }}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save">
-    </form>
-
     <div class="box box-success">
         <div class="box-header with-border">
             <h3 class="box-title">Compare</h3>
