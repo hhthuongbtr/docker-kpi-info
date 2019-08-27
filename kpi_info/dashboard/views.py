@@ -58,7 +58,7 @@ class ChartJSONView(BaseLineChartView):
 
     def get_hourly_data(self, datetime):
         revenue = Revenue()
-        return revenue.get_from_range(datetime, datetime + timedelta(hours=1))
+        return revenue.get_from_range(datetime, datetime + timedelta(hours=1)) * 10
 
     def get_total_at_hour_data(self, datetime):
         revenue = Revenue()
