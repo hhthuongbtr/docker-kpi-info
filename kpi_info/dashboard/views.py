@@ -3,9 +3,20 @@ from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
 from .models import Revenue
 from datetime import datetime, timedelta
+from .forms import DateRangeForm
+from django.http import HttpResponseRedirect
 
 def dashboard(request):
-    return render(request, 'dashboard/index.html')
+    if request.method == 'POST':
+        form = DateRangeForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+            return HttpResponseRedirect('/thanks/')
+    else:
+        form = DateRangeForm()
+
+    return render(request, 'dashboard/index.html', {'form': form})
 
 COLORS = [
     (210, 214, 222),  # Light gray
