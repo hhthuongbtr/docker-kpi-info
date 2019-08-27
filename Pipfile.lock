@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3f8c65c04a84e0f1e28667fd86e69a132bcf4fd9676144129d6e544fa6a5bcfe"
+            "sha256": "05bb4fa1ae93eacf58f3392d4a5a51d0ab13a2d1670131109205cd6e3d1c92b0"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -18,11 +18,11 @@
     "default": {
         "django": {
             "hashes": [
-                "sha256:16a5d54411599780ac9dfe3b9b38f90f785c51259a584e0b24b6f14a7f69aae8",
-                "sha256:9a2f98211ab474c710fcdad29c82f30fc14ce9917c7a70c3682162a624de4035"
+                "sha256:4d23f61b26892bac785f07401bc38cbf8fa4cec993f400e9cd9ddf28fd51c0ea",
+                "sha256:6e974d4b57e3b29e4882b244d40171d6a75202ab8d2402b8e8adbd182e25cf0c"
             ],
             "index": "pypi",
-            "version": "==2.2.4"
+            "version": "==2.2.3"
         },
         "django-adminlte2": {
             "hashes": [
@@ -39,14 +39,6 @@
                 "sha256:e1c33e58c68324d9ba5a3f3c60b672311289aa108b0b338de82eefc4efaaaacb"
             ],
             "version": "==0.9.1"
-        },
-        "django-bootstrap-datepicker-plus": {
-            "hashes": [
-                "sha256:490058eba99d47f48a7d24fa78581c0e36375bdc7aa9605783eeb170d51fd0df",
-                "sha256:a8bc19cc6846f97ff1e6c447f4e0387881d16e8afa1e8bd7a652c19e545c566b"
-            ],
-            "index": "pypi",
-            "version": "==3.0.5"
         },
         "django-chartjs": {
             "hashes": [
@@ -74,10 +66,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:26c0b32e437e54a18161324a2fca3c4b9846b74a8dccddd843113109e1116b32",
-                "sha256:c894d57500a4cd2d5c71114aaab77dbab5eabd9022308ce5ac9bb93a60a6f0c7"
+                "sha256:303879e36b721603cc54604edcac9d20401bdbe31e1e4fdee5b9f98d5d31dfda",
+                "sha256:d747dd3d23d77ef44c6a3526e274af6efeb0a6f1afd5a69ba4d5be4098c8e141"
             ],
-            "version": "==2019.2"
+            "version": "==2019.1"
         },
         "six": {
             "hashes": [
