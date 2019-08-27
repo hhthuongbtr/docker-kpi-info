@@ -15,7 +15,3 @@ class Revenue(models.Model):
             hourly_revenue = Sum('money')
         )
         return sum(transaction.money for transaction in transaction_in_range)
-
-class Compare(models.Model):
-    date1 = models.DateTimeField()
-    date2 = models.DateTimeField()
