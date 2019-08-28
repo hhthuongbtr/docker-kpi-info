@@ -9,13 +9,18 @@
             <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
             <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
             <form id="daterange" method="post">{% csrf_token %}
-                <input type="text" name="daterange" value="05/31/2019 - 06/01/2019" />
+                {% block defaultdaterange %}
+                <input type="text" name="daterange" value="2019-05-31 - 2019-06-01" />
+                {% endblock %}
                 <input type="hidden" name="start_date" required="" id="id_start_date">
                 <input type="hidden" name="end_date" required="" id="id_end_date">
                 <script type="text/javascript">
                     $(function() {
                         $('input[name="daterange"]').daterangepicker({
-                            opens: 'left'
+                            opens: 'left',
+                            locale: {
+                                format: 'YYYY-MM-DD'
+                            }
                         }, function(start, end, label) {
                             document.getElementById("id_start_date").value = start.format('YYYY-MM-DD');
                             document.getElementById("id_end_date").value = end.format('YYYY-MM-DD');
@@ -38,7 +43,9 @@
                 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
                 <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
                 <script type="text/javascript">
+                    {% block chartjson %}
                     $.get('{% url "chart-json" %}', function(data) {
+                    {% endblock %}
                         var todayChartCanvas = $("#todayChart").get(0).getContext("2d")
                         var todayChartOptions = baseChartOptions
                         var baseChartOptions = {

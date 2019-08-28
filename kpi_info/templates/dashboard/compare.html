@@ -1,0 +1,7 @@
+{% extends 'dashboard/index.html' %}
+{% block defaultdaterange %}
+    <input type="text" name="daterange" value="{{ date1 }} - {{ date2 }}" />
+{% endblock %}
+{% block chartjson %}
+    $.get('{% url "chart-json" %}' + "/{{ date1 }}/{{ date2 }}", function(data) {
+{% endblock %}

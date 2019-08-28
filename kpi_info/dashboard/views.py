@@ -5,6 +5,7 @@ from .models import Revenue
 from datetime import datetime, timedelta
 from .forms import DateRangeForm
 from django.http import HttpResponseRedirect
+from django.urls import resolve
 
 def dashboard(request):
     if request.method == 'POST':
@@ -12,7 +13,7 @@ def dashboard(request):
         if form.is_valid():
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
-            return HttpResponseRedirect('/thanks/')
+            return render(request, 'dashboard/compare.html', {'form': form, 'date1': start_date.strftime("%Y-%m-%d"), 'date2': end_date.strftime("%Y-%m-%d")})
     else:
         form = DateRangeForm()
 
@@ -60,12 +61,14 @@ class ChartJSONView(BaseLineChartView):
         return datasets
 
     def get_data(self):
-        day1 = datetime.strptime('2019-06-01', '%Y-%m-%d')
-        day2 = datetime.strptime('2019-05-31', '%Y-%m-%d')
-        return [self.get_daily_data(day1, 'hourly'),
-                self.get_daily_data(day1, 'total'),
-                self.get_daily_data(day2, 'hourly'),
-                self.get_daily_data(day2, 'total'),]
+        date1 = datetime.strptime(self.kwargs['date1'], '%Y-%m-%d')
+        date2 = datetime.strptime(self.kwargs['date2'], '%Y-%m-%d')
+        print(date1)
+        print(date2)
+        return [self.get_daily_data(date1, 'hourly'),
+                self.get_daily_data(date1, 'total'),
+                self.get_daily_data(date2, 'hourly'),
+                self.get_daily_data(date2, 'total'),]
 
     def get_hourly_data(self, datetime):
         revenue = Revenue()
