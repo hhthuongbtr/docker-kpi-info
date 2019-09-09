@@ -14,7 +14,7 @@ class Command(BaseCommand):
         log_dir = 'data/nikki/*/*/nikkisea_datalog_chargelog_hourly/*.csv'
         for log in glob.iglob(log_dir):
             if os.path.exists('last_updated'):
-                with open('last_updated', 'w') as f:
+                with open('last_updated', 'r') as f:
                     last_updated = float(f.read())
                 if last_updated > os.path.getmtime(log):
                     continue
