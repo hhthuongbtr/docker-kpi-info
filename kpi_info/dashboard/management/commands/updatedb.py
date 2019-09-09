@@ -5,6 +5,7 @@ import csv
 import datetime
 import time
 import glob
+import os
 
 class Command(BaseCommand):
     help = 'Parse data from CSV log file'
@@ -12,6 +13,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         log_dir = 'data/nikki/*/*/nikkisea_datalog_chargelog_hourly/*.csv'
         for log in glob.iglob(log_dir):
+            if os.path.exists('last_updated'):
+                with open('last_updated', 'w') as f:
+                    last_updated = float(f.read())
+                if last_updated > os.path.getmtime(log):
+                    continue
+
             self.write_log_to_db(log)
 
         with open('last_updated', 'w') as f:
