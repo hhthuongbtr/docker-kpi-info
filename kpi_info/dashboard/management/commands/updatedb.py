@@ -3,6 +3,7 @@ from ...models import Revenue
 from django.db.models import Sum
 import csv
 import datetime
+import time
 import glob
 
 class Command(BaseCommand):
@@ -12,6 +13,9 @@ class Command(BaseCommand):
         log_dir = 'data/nikki/*/*/nikkisea_datalog_chargelog_hourly/*.csv'
         for log in glob.iglob(log_dir):
             self.write_log_to_db(log)
+
+        with open('last_updated', 'w') as f:
+            f.write(str(time.time()))
 
     def readlog(self, log_path):
         logfile = open(log_path, encoding='latin-1')
