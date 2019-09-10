@@ -93,3 +93,6 @@ class ChartJSONView(BaseLineChartView):
 
     def get_colors(self):
         return next_color()
+
+def top_users(request):
+    return render(request, 'dashboard/top_users.html')
