@@ -96,3 +96,7 @@ class ChartJSONView(BaseLineChartView):
 
 def top_users(request):
     return render(request, 'dashboard/top_users.html')
+
+class TopUsers():
+    def get_data(self):
+        pass
