@@ -53,7 +53,6 @@ class Command(BaseCommand):
 
     def write_log_to_db(self, log_path, server_index):
         log = self.read_log(log_path)
-        revenue = Revenue()
 
         for row in log:
             Revenue.objects.update_or_create(
