@@ -1,5 +1,6 @@
 .vscode/
 kpi_info/data/
+kpi_info/last_updated
 */__pycache__/
 */*/__pycache__/
 */*/*/__pycache__/
