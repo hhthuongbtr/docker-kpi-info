@@ -32,8 +32,3 @@ services:
         working_dir: /usr/share/nginx/html
         depends_on:
             - python
-    certbot:
-        image: certbot/certbot
-        depends_on:
-            - nginx
-
