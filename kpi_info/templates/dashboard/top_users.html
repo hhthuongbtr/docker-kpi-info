@@ -7,6 +7,22 @@
         <div class="box-header">
             <h3 class="box-title">Top N user in server</h3>
         </div>
+        <div class="input-group">
+            <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+            </div>
+            <input type="text" class="form-control pull-right" id="daterange">
+            <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+            <script type="text/javascript">
+                $(function() {
+                    $('input[id="daterange"]').daterangepicker({
+                        opens: 'left'
+                    }, function(start, end, label) {
+                        console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                    });
+                });
+            </script>
+        </div>
         <!-- /.box-header -->
         <div class="box-body no-padding">
             <table class="table table-striped">
@@ -14,7 +30,7 @@
                 <th style="width: 10px">#</th>
                 <th>Username</th>
                 <th>Money spent</th>
-                <th style="width: 40px">USD</th>
+                <th style="width: 40px">VND</th>
             </tr>
             <tr>
                 <td>1.</td>
@@ -40,7 +56,7 @@
                 <td>3.</td>
                 <td>longnt13</td>
                 <td>
-                <div class="progress progress-xs progress-striped active">
+                <div class="progress progress-xs">
                     <div class="progress-bar progress-bar-primary" style="width: 19%"></div>
                 </div>
                 </td>
@@ -50,7 +66,7 @@
                 <td>4.</td>
                 <td>thuonghh</td>
                 <td>
-                <div class="progress progress-xs progress-striped active">
+                <div class="progress progress-xs">
                     <div class="progress-bar progress-bar-success" style="width: 3%"></div>
                 </div>
                 </td>
