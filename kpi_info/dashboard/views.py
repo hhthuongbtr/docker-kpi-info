@@ -101,7 +101,7 @@ def top_users(request):
         'player_name'
     ).annotate(
         total_pay_money=Sum('pay_money')
-    ).order_by('-total_pay_money')
+    ).order_by('-total_pay_money')[:10]
     return render(request, 'dashboard/top_users.html', {'query_results': query_results})
 
 class TopUsers():
