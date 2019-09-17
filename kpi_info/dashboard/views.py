@@ -98,7 +98,8 @@ class ChartJSONView(BaseLineChartView):
 
 def top_users(request):
     query_results = Revenue.objects.values(
-        'player_name'
+        'player_name',
+        'server_index',
     ).annotate(
         total_pay_money=Sum('pay_money')
     ).order_by('-total_pay_money')[:10]
