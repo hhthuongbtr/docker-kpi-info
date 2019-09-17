@@ -60,6 +60,6 @@ class Command(BaseCommand):
                 server_index = server_index,
                 player_id = row["PlayerID"],
                 player_name  = row["PlayerName"],
-                pay_money = row["pay_money"],
+                pay_money = int(float(row["pay_money"])),
                 order_time = datetime.datetime.strptime(row["order_time"], '%Y-%m-%d %H:%M:%S'),
             )

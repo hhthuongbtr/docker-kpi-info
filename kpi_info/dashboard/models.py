@@ -7,7 +7,7 @@ class Revenue(models.Model):
     server_index = models.IntegerField()
     player_id = models.BigIntegerField()
     player_name = models.CharField(max_length=100)
-    pay_money = models.FloatField()
+    pay_money = models.IntegerField()
     order_time = models.DateTimeField()
 
     # Get total revenue in specific time range
