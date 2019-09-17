@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from .forms import DateRangeForm
 from django.http import HttpResponseRedirect
 from django.urls import resolve
+import json
 
 def dashboard(request):
     if request.method == 'POST':
@@ -95,8 +96,9 @@ class ChartJSONView(BaseLineChartView):
         return next_color()
 
 def top_users(request):
-    return render(request, 'dashboard/top_users.html')
+    query_results = Revenue.objects.all()
+    return render(request, 'dashboard/top_users.html', {'query_results': query_results})
 
 class TopUsers():
     def get_data(self):
-        pass
+        return json.dumps([{'name': 'khued', 'total_pay_money': '1000'}, {'name': 'phucph2', 'total_pay_money': '2000'}, {'name': 'longnt13', 'total_pay_money': '3000'}, ])
