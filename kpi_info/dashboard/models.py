@@ -6,7 +6,7 @@ class Revenue(models.Model):
     bill_id = models.BigIntegerField(unique=True)
     server_index = models.IntegerField()
     player_id = models.BigIntegerField()
-    player_name = models.BinaryField()
+    player_name = models.CharField(max_length=100)
     pay_money = models.FloatField()
     order_time = models.DateTimeField()
 

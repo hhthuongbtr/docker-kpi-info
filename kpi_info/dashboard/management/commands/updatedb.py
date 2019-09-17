@@ -59,7 +59,7 @@ class Command(BaseCommand):
                 bill_id = row["BillID"],
                 server_index = server_index,
                 player_id = row["PlayerID"],
-                player_name  = row["PlayerName"].encode('utf-8'),
+                player_name  = row["PlayerName"],
                 pay_money = row["pay_money"],
                 order_time = datetime.datetime.strptime(row["order_time"], '%Y-%m-%d %H:%M:%S'),
             )
