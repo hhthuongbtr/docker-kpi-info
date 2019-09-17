@@ -7,6 +7,7 @@ from .forms import DateRangeForm
 from django.http import HttpResponseRedirect
 from django.urls import resolve
 import json
+from django.db.models import Sum
 
 def dashboard(request):
     if request.method == 'POST':
@@ -96,9 +97,13 @@ class ChartJSONView(BaseLineChartView):
         return next_color()
 
 def top_users(request):
-    query_results = Revenue.objects.all()
+    query_results = Revenue.objects.values(
+        'player_name'
+    ).annotate(
+        total_pay_money=Sum('pay_money')
+    ).order_by('-total_pay_money')
     return render(request, 'dashboard/top_users.html', {'query_results': query_results})
 
 class TopUsers():
     def get_data(self):
-        return json.dumps([{'name': 'khued', 'total_pay_money': '1000'}, {'name': 'phucph2', 'total_pay_money': '2000'}, {'name': 'longnt13', 'total_pay_money': '3000'}, ])
+        return json.dumps()

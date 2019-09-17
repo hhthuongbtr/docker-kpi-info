@@ -23,7 +23,6 @@
                 });
             </script>
         </div>
-        <!-- /.box-header -->
         <div class="box-body no-padding">
             <table class="table table-striped">
             <tr>
@@ -33,15 +32,12 @@
             </tr>
             {% for item in query_results %}
             <tr> 
-                <td>{{ item.id }}</td>
+                <td>{{ forloop.counter }}</td>
                 <td>{{ item.player_name }}</td>
-                <td><span class="badge bg-red">{{ item.pay_money }}</span></td>
+                <td><span class="badge bg-red">{{ item.total_pay_money }}</span></td>
             </tr>
             {% endfor %}
             </table>
         </div>
-        <!-- /.box-body -->
-        </div>
-        <!-- /.box -->
     </div>
 {% endblock %}
