@@ -5,25 +5,39 @@
 {% load staticfiles %}
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title">Top 10 users in all servers</h3>
-        </div>
-        <div class="input-group">
-            <div class="input-group-addon">
-            <i class="fa fa-calendar"></i>
-            </div>
-            <input type="text" class="form-control pull-right" id="daterange">
-            <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-            <script type="text/javascript">
-                $(function() {
-                    $('input[id="daterange"]').daterangepicker({
-                        opens: 'left'
-                    }, function(start, end, label) {
-                        console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-                    });
-                });
-            </script>
+            <h3 class="box-title">Top paid users</h3>
         </div>
         <div class="box-body no-padding">
+            <div class="col-md-6">
+                <label>Select server</label>
+                <div class="form-group">
+                    <select class="form-control select2" style="width: 100%;">
+                        <option selected="selected">All servers</option>
+                        {% for item in top_users %}
+                        <option>{{ item.server_index }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label>Select date time range</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" id="daterange">
+                    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+                    <script type="text/javascript">
+                        $(function() {
+                            $('input[id="daterange"]').daterangepicker({
+                                opens: 'left'
+                            }, function(start, end, label) {
+                                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
             <table class="table table-striped">
             <tr>
                 <th style="width: 10px">#</th>
