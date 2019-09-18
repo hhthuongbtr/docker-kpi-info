@@ -20,13 +20,26 @@ class Revenue(models.Model):
         return sum(transaction.pay_money for transaction in transaction_in_range)
 
     @staticmethod
-    def get_top_paid_user(start_datetime, end_datetime, server_index, count):
-        return Revenue.objects.filter(
-            order_time__range = (start_datetime, end_datetime),
-            server_index = server_index
-        ).values(
+    def get_top_paid_users(start_datetime=None, end_datetime=None, server_index=None, count=None):
+        transactions = Revenue.objects.all()
+        # Filter by date time range
+        if start_datetime and end_datetime:
+            transactions = transactions.filter(
+                order_time__range = (start_datetime, end_datetime)
+            )
+        # Filter by server index
+        if server_index:
+            transactions = transactions.filter(
+                server_index = server_index
+            )
+        # Get ordered list of top paid users
+        top_users = transactions.values(
             'player_name',
             'server_index',
         ).annotate(
             total_pay_money=Sum('pay_money')
-        ).order_by('-total_pay_money')[:count]
+        ).order_by('-total_pay_money')
+        # Limit top users list length if needed
+        if count:
+            top_users = top_users[:count]
+        return top_users
