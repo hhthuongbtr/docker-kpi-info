@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Sum, Count
 import datetime
 
 class Revenue(models.Model):
@@ -43,3 +43,13 @@ class Revenue(models.Model):
         if count:
             top_users = top_users[:count]
         return top_users
+
+    @staticmethod
+    def get_unit_sales(server_index=None):
+        transactions = Revenue.objects.all()
+        if server_index:
+            transactions = transactions.filter(
+                server_index = server_index
+            )
+        unit_sales = transactions.values("pay_money").annotate(Count("id"))
+        return unit_sales
