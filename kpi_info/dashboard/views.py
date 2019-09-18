@@ -97,13 +97,8 @@ class ChartJSONView(BaseLineChartView):
         return next_color()
 
 def top_users(request):
-    query_results = Revenue.objects.values(
-        'player_name',
-        'server_index',
-    ).annotate(
-        total_pay_money=Sum('pay_money')
-    ).order_by('-total_pay_money')[:10]
-    return render(request, 'dashboard/top_users.html', {'query_results': query_results})
+    top_users = Revenue.get_top_paid_user("2019-09-04 00:00:00","2019-09-04 23:59:59", 25001, 20)
+    return render(request, 'dashboard/top_users.html', {'top_users': top_users})
 
 class TopUsers():
     def get_data(self):
