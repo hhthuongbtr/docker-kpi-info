@@ -100,6 +100,9 @@ def top_users(request):
     top_users = Revenue.get_top_paid_users(start_datetime="2019-09-04 00:00:00", end_datetime="2019-09-04 23:59:59", server_index=25001, count=5)
     return render(request, 'dashboard/top_users.html', {'top_users': top_users})
 
-class TopUsers():
+def item_sales(request):
+    return render(request, 'dashboard/item_sales.html')
+
+class ChartJSON(BaseLineChartView):
     def get_data(self):
         return json.dumps()

@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
     path('top_users/', views.top_users, name='top_users'),
+    path('item_sales/', views.item_sales, name='item_sales'),
     path('api/chart-json/', views.ChartJSONView.as_view(), name='chart-json'),
     path('api/chart-json/<str:date1>/<str:date2>', views.ChartJSONView.as_view(), name='chart-json-compare')
 ]
