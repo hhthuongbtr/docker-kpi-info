@@ -22,16 +22,18 @@ def dashboard(request):
     return render(request, 'dashboard/index.html', {'form': form})
 
 COLORS = [
-    (210, 214, 222),  # Light gray
-    (60, 141, 188),   # Blue
+    "#f56954",
+    "#00a65a",
+    "#f39c12",
+    "#00c0ef",
+    "#3c8dbc",
+    "#d2d6de",
 ]
 
 def next_color(color_list=COLORS):
-    step = 0
     while True:
         for color in color_list:
-            yield list(map(lambda base: (base + step) % 256, color))
-        step += 197
+            yield color
 
 class ChartJSONView(BaseLineChartView):
     def get_labels(self):
@@ -65,8 +67,6 @@ class ChartJSONView(BaseLineChartView):
     def get_data(self):
         date1 = datetime.strptime(self.kwargs['date1'], '%Y-%m-%d')
         date2 = datetime.strptime(self.kwargs['date2'], '%Y-%m-%d')
-        print(date1)
-        print(date2)
         return [self.get_daily_data(date1, 'hourly'),
                 self.get_daily_data(date1, 'total'),
                 self.get_daily_data(date2, 'hourly'),
@@ -101,8 +101,51 @@ def top_users(request):
     return render(request, 'dashboard/top_users.html', {'top_users': top_users})
 
 def item_sales(request):
-    return render(request, 'dashboard/item_sales.html')
+    if request.method == 'POST':
+        form = DateRangeForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+            return render(request, 'dashboard/compare.html', {'form': form, 'date1': start_date.strftime("%Y-%m-%d"), 'date2': end_date.strftime("%Y-%m-%d")})
+    else:
+        form = DateRangeForm()
+    data = Revenue.get_item_sales()
+    dataset = []
+    labels = []
+    for entry in data:
+        dataset.append(entry['id__count'])
+        labels.append(entry['pay_money'])
 
-class ChartJSON(BaseLineChartView):
+    return render(request, 'dashboard/item_sales.html', {"form": form, 'dataset': dataset, 'labels': labels})
+
+class ItemSalesChart(BaseLineChartView):
     def get_data(self):
-        return json.dumps()
+        query = Revenue.get_item_sales()
+        data = []
+        for entry in query:
+            data.append(entry['id__count'])
+        return [data]
+    
+    def get_labels(self):
+        query = Revenue.get_item_sales()
+        labels = []
+        for entry in query:
+            labels.append(entry['pay_money'])
+        return labels
+
+    def get_datasets(self):
+        datasets = []
+        color_generator = self.get_colors()
+        data = self.get_data()
+        providers = self.get_providers()
+        num = len(providers)
+        for i, entry in enumerate(data):
+            color = next(color_generator)
+            dataset = {'backgroundColor': color,
+                       'data': entry}
+            if i < num:
+                dataset['label'] = providers[i]  # series labels for Chart.js
+            datasets.append(dataset)
+        return datasets
+    def get_colors(self):
+        return next_color()

@@ -45,7 +45,7 @@ class Revenue(models.Model):
         return top_users
 
     @staticmethod
-    def get_unit_sales(server_index=None):
+    def get_item_sales(server_index=None):
         transactions = Revenue.objects.all()
         if server_index:
             transactions = transactions.filter(
