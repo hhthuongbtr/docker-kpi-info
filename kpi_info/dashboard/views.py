@@ -124,7 +124,7 @@ class ItemSalesChart(BaseLineChartView):
         data = []
         for entry in query:
             data.append(entry['id__count'])
-        return [data]
+        return data
     
     def get_labels(self):
         query = Revenue.get_item_sales()
@@ -135,17 +135,26 @@ class ItemSalesChart(BaseLineChartView):
 
     def get_datasets(self):
         datasets = []
-        color_generator = self.get_colors()
+        color_generator = next_color()
         data = self.get_data()
-        providers = self.get_providers()
-        num = len(providers)
-        for i, entry in enumerate(data):
+        labels = self.get_labels()
+        for item, sales in zip(labels, data):
             color = next(color_generator)
+            print(color)
             dataset = {'backgroundColor': color,
-                       'data': entry}
-            if i < num:
-                dataset['label'] = providers[i]  # series labels for Chart.js
+                       'label': item,
+                       'value': sales}
             datasets.append(dataset)
+        datasets = [
+            {
+                'backgroundColor': COLORS,
+                'data': data,
+            }
+        ]
         return datasets
     def get_colors(self):
         return next_color()
+
+    def get_context_data(self, **kwargs):
+        context = {'labels': self.get_labels(), 'datasets': self.get_datasets()}
+        return context
