@@ -22,12 +22,22 @@ def dashboard(request):
     return render(request, 'dashboard/index.html', {'form': form})
 
 COLORS = [
+    "#23AEBB",
     "#f56954",
     "#00a65a",
-    "#f39c12",
     "#00c0ef",
-    "#3c8dbc",
-    "#d2d6de",
+    "#f39c12",
+    "#0073b7",
+    "#001F3F",
+    "#39CCCC",
+    "#3D9970",
+    "#01FF70",
+    "#FF851B",
+    "#F012BE",
+    "#8E24AA",
+    "#D81B60",
+    "#222222",
+    "#d2d6de"
 ]
 
 def next_color(color_list=COLORS):
