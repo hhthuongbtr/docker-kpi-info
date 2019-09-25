@@ -45,8 +45,12 @@ class Revenue(models.Model):
         return top_users
 
     @staticmethod
-    def get_item_sales(server_index=None):
+    def get_item_sales(start_date=None, end_date=None, server_index=None):
         transactions = Revenue.objects.all()
+        if start_date and end_date:
+            transactions = transactions.filter(
+                order_time__range = (start_date, end_date)
+            )
         if server_index:
             transactions = transactions.filter(
                 server_index = server_index
