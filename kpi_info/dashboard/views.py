@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
 from .models import Revenue
 from datetime import datetime, timedelta
-from .forms import DateRangeForm
+from .forms import DateRangeForm, ServerDateRangeForm
 from django.http import HttpResponseRedirect
 from django.urls import resolve
 import json
@@ -107,26 +107,31 @@ class ChartJSONView(BaseLineChartView):
         return next_color()
 
 def top_users(request):
-    top_users = Revenue.get_top_paid_users(start_datetime="2019-09-04 00:00:00", end_datetime="2019-09-04 23:59:59", server_index=25001, count=5)
-    return render(request, 'dashboard/top_users.html', {'top_users': top_users})
+    top_users = Revenue.get_top_paid_users()
+    server_list = Revenue.get_server_list()
+    return render(request, 'dashboard/top_users.html', {'top_users': top_users, 'server_list': server_list})
 
 def item_sales(request):
     if request.method == 'POST':
-        form = DateRangeForm(request.POST)
+        form = ServerDateRangeForm(request.POST)
         if form.is_valid():
+            server_index = form.cleaned_data['server_index']
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
             return render(request, 'dashboard/compare.html', {'form': form, 'date1': start_date.strftime("%Y-%m-%d"), 'date2': end_date.strftime("%Y-%m-%d")})
     else:
-        form = DateRangeForm()
+        form = ServerDateRangeForm()
     data = Revenue.get_item_sales()
     dataset = []
     labels = []
+    server_list = Revenue.get_server_list()
+    print("Hello")
+    print(server_list)
     for entry in data:
         dataset.append(entry['id__count'])
         labels.append(entry['pay_money'])
 
-    return render(request, 'dashboard/item_sales.html', {"form": form, 'dataset': dataset, 'labels': labels})
+    return render(request, 'dashboard/item_sales.html', {"form": form, 'dataset': dataset, 'labels': labels, "server_list": server_list})
 
 class ItemSalesChart(BaseLineChartView):
     def get_data(self):
@@ -150,7 +155,6 @@ class ItemSalesChart(BaseLineChartView):
         labels = self.get_labels()
         for item, sales in zip(labels, data):
             color = next(color_generator)
-            print(color)
             dataset = {'backgroundColor': color,
                        'label': item,
                        'value': sales}

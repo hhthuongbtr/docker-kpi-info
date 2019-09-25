@@ -53,3 +53,7 @@ class Revenue(models.Model):
             )
         unit_sales = transactions.values("pay_money").annotate(Count("id"))
         return unit_sales
+    
+    @staticmethod
+    def get_server_list():
+        return Revenue.objects.values_list("server_index", flat=True).distinct().order_by("server_index")

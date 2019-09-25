@@ -13,8 +13,8 @@
                 <div class="form-group">
                     <select class="form-control select2" style="width: 100%;">
                         <option selected="selected">All servers</option>
-                        {% for item in top_users %}
-                        <option>{{ item.server_index }}</option>
+                        {% for item in server_list %}
+                        <option>{{ item }}</option>
                         {% endfor %}
                     </select>
                 </div>

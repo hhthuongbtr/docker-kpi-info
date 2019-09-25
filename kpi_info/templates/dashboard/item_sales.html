@@ -3,72 +3,45 @@
 {% load staticfiles %}
     <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title">Select dates</h3>
-        </div>
-        <div class="box-body">
-            <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-            <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
-            <form id="daterange" method="post">{% csrf_token %}
-                {% block defaultdaterange %}
-                <input type="text" name="daterange" value="2019-05-31 - 2019-06-01" />
-                {% endblock %}
-                <input type="hidden" name="start_date" required="" id="id_start_date">
-                <input type="hidden" name="end_date" required="" id="id_end_date">
-                <script type="text/javascript">
-                    $(function() {
-                        $('input[name="daterange"]').daterangepicker({
-                            opens: 'left',
-                            locale: {
-                                format: 'YYYY-MM-DD'
-                            }
-                        }, function(start, end, label) {
-                            document.getElementById("id_start_date").value = start.format('YYYY-MM-DD');
-                            document.getElementById("id_end_date").value = end.format('YYYY-MM-DD');
-                            $('#daterange').submit();
-                            console.log(start.format('YYYY-MM-DD') + end.format('YYYY-MM-DD'));
-                        });
-                    });
-                </script>
-                <input type="submit" value="Refresh">
-            </form>
-        </div>
-    </div>
-    <div class="box box-success">
-        <div class="box-header with-border">
             <h3 class="box-title">Item Sales</h3>
         </div>
         <div class="box-body">
-            <div class="col-sm-5">
-                <div class="form-group">
-                    <select class="form-control select2">
-                        <option selected="selected">All servers</option>
-                        {% for item in top_users %}
-                        <option>{{ item.server_index }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-5">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
+            <form id="daterange" method="post">{% csrf_token %}
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <select class="form-control select2" id="server_index">
+                            <option selected="selected">All</option>
+                            {% for item in server_list %}
+                            <option>{{ item }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <input type="text" class="form-control pull-right" id="daterange">
-                    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-                    <script type="text/javascript">
-                        $(function() {
-                            $('input[id="daterange"]').daterangepicker({
-                                opens: 'left'
-                            }, function(start, end, label) {
-                                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-                            });
-                        });
-                    </script>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-block btn-primary">Refresh</button>
-            </div>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="daterange">
+                        <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+                        <script type="text/javascript">
+                            $(function() {
+                                $('input[id="daterange"]').daterangepicker({
+                                    opens: 'left',
+                                    locale: {
+                                        format: 'YYYY-MM-DD'
+                                    }
+                                }, function(start, end, label) {
+                                    console.log(start.format('YYYYMMDD') + '-' + end.format('YYYYMMDD') + '-' + document.getElementById("server_index").value);
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-block btn-primary">Refresh</button>
+                </div>
+            </form>
             <div class="chart">
                 <canvas id="itemChart" style="height:500px"></canvas>
                 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
