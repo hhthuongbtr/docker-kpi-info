@@ -23,19 +23,6 @@
                             <i class="fa fa-calendar"></i>
                         </div>
                         <input type="text" class="form-control pull-right" id="daterange">
-                        <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-                        <script type="text/javascript">
-                            $(function() {
-                                $('input[id="daterange"]').daterangepicker({
-                                    opens: 'left',
-                                    locale: {
-                                        format: 'YYYY-MM-DD'
-                                    }
-                                }, function(start, end, label) {
-                                    console.log(start.format('YYYYMMDD') + '-' + end.format('YYYYMMDD') + '-' + document.getElementById("server_index").value);
-                                });
-                            });
-                        </script>
                     </div>
                 </div>
                 <div class="col-sm-2">
@@ -47,14 +34,29 @@
                 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
                 <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
                 <script type="text/javascript">
-                    {% block chartjson %}
+                    $(function() {
+                        $('input[id="daterange"]').daterangepicker({
+                            opens: 'left',
+                            locale: {
+                                format: 'YYYY-MM-DD'
+                            }
+                        }, function(start, end, label) {
+                            chart_json_query = start.format('YYYYMMDD') + '-' + end.format('YYYYMMDD') + '-' + document.getElementById("server_index").value
+                            data = $.getJSON('/api/chart-json/item_sales/' + chart_json_query)
+                            console.log(data)
+                            itemChart.update()
+                        });
+                    });
                     $.get('{% url "item_sales" %}', function(data) {
-                    {% endblock %}
-                        new Chart(document.getElementById("itemChart"), {
+                        itemChart = new Chart(document.getElementById("itemChart"), {
                             type: 'pie',
                             data: data,
                         });
                     });
+                    function updateChartData(itemChart) {
+                        itemChart.data.datasets = [];
+                        itemChart.update()
+                    };
                 </script>
             </div>
         </div>
