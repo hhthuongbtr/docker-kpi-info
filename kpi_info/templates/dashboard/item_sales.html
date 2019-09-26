@@ -42,7 +42,7 @@
                             }
                         }, function(start, end, label) {
                             chart_json_query = start.format('YYYYMMDD') + '-' + end.format('YYYYMMDD') + '-' + document.getElementById("server_index").value
-                            data = $.getJSON('/api/chart-json/item_sales/' + chart_json_query)
+                            data = $.getJSON('/api/item_sales/' + chart_json_query)
                             console.log(data)
                             itemChart.update()
                         });

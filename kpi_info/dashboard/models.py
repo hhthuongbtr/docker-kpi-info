@@ -49,7 +49,8 @@ class Revenue(models.Model):
         transactions = Revenue.objects.all()
         if start_date and end_date:
             transactions = transactions.filter(
-                order_time__range = (start_date, end_date)
+                order_time__range = (datetime.datetime.combine(start_date, datetime.time.min),
+                                     datetime.datetime.combine(end_date, datetime.time.max))
             )
         if server_index:
             transactions = transactions.filter(
