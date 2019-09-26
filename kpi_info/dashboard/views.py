@@ -125,8 +125,6 @@ def item_sales(request):
     dataset = []
     labels = []
     server_list = Revenue.get_server_list()
-    print("Hello")
-    print(server_list)
     for entry in data:
         dataset.append(entry['id__count'])
         labels.append(entry['pay_money'])

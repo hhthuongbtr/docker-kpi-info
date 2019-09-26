@@ -8,6 +8,6 @@ urlpatterns = [
     path('item_sales/', views.item_sales, name='item_sales'),
     path('api/chart-json/', views.ChartJSONView.as_view(), name='chart-json'),
     path('api/chart-json/<str:date1>/<str:date2>', views.ChartJSONView.as_view(), name='chart-json-compare'),
-    path('api/chart-json/item_sales', views.ItemSalesChart.as_view(), name='item_sales'),
-    path('api/chart-json/<str:date1>-<str:date2>-<str:server>', views.ItemSalesChart.as_view(), name='item_sales_args'),
+    path('api/item_sales/', views.ItemSalesChart.as_view(), name='item_sales'),
+    path('api/item_sales/<str:start_date>-<str:end_date>-<str:server_index>', views.ItemSalesChart.as_view(), name='item_sales_args'),
 ]
