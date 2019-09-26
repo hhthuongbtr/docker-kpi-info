@@ -141,7 +141,7 @@ class ItemSalesChart(BaseLineChartView):
             start_date = datetime.strptime(self.kwargs['start_date'], '%Y%m%d')
             end_date = datetime.strptime(self.kwargs['end_date'], '%Y%m%d')
             server_index = self.kwargs['server_index']
-            if server_index == "All":
+            if server_index == "All servers":
                 server_index = None
         except:
             print("No date range and server selected, getting all data accross servers.")
