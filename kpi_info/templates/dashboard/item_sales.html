@@ -42,8 +42,11 @@
                             }
                         }, function(start, end, label) {
                             chart_json_query = start.format('YYYYMMDD') + '-' + end.format('YYYYMMDD') + '-' + document.getElementById("server_index").value
-                            data = $.getJSON('/api/item_sales/' + chart_json_query)
-                            console.log(data)
+                            $.get('/api/item_sales/' + chart_json_query, function(data) {
+                                console.log(data)
+                                itemChart.data.datasets = data.datasets
+                                itemChart.update()
+                            });
                             itemChart.update()
                         });
                     });
@@ -53,10 +56,6 @@
                             data: data,
                         });
                     });
-                    function updateChartData(itemChart) {
-                        itemChart.data.datasets = [];
-                        itemChart.update()
-                    };
                 </script>
             </div>
         </div>
