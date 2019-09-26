@@ -133,7 +133,18 @@ def item_sales(request):
 
 class ItemSalesChart(BaseLineChartView):
     def get_data(self):
-        query = Revenue.get_item_sales()
+        start_date = None
+        end_date = None
+        server_index = None
+
+        try:
+            start_date = datetime.strptime(self.kwargs['start_date'], '%Y%m%d')
+            end_date = datetime.strptime(self.kwargs['end_date'], '%Y%m%d')
+            server_index = self.kwargs['server_index']
+        except:
+            print("No date range and server selected, getting all data accross servers.")
+
+        query = Revenue.get_item_sales(start_date=start_date, end_date=end_date, server_index=server_index)
         data = []
         for entry in query:
             data.append(entry['id__count'])
