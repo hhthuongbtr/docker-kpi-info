@@ -30,21 +30,7 @@
                 </div>
             </form>
             <div class="table">
-                <table class="table table-striped">
-                <tr>
-                    <th style="width: 10px">#</th>
-                    <th>Username</th>
-                    <th>ServerID</th>
-                    <th style="width: 40px">VND</th>
-                </tr>
-                {% for item in top_users %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ item.player_name }}</td>
-                    <td>{{ item.server_index }}</td>
-                    <td><span class="badge bg-red">{{ item.total_pay_money }}</span></td>
-                </tr>
-                {% endfor %}
+                {% include 'dashboard/top_users_table.html' %}
                 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
                 <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
                 <script type="text/javascript">
@@ -59,19 +45,11 @@
                             date_range = start.format('YYYYMMDD') + '-' + end.format('YYYYMMDD')
                         });
                     });
-                    $.get('{% url "item_sales" %}', function(data) {
-                        itemChart = new Chart(document.getElementById("itemChart"), {
-                            type: 'pie',
-                            data: data,
-                        });
-                    });
                     document.getElementById("refresh").onclick = function () {
-                        chart_json_query = date_range + '-' + document.getElementById("server_index").value
-                        $.get('{% url "item_sales" %}' + chart_json_query, function (data) {
-                            itemChart.data.datasets = data.datasets
-                            itemChart.update()
-                        });
-                        itemChart.update()
+                        table_query = date_range + '-' + document.getElementById("server_index").value
+                        $('.table').html('').load(
+                            "{% url 'top_users' %}" + table_query
+                        );
                     };
                 </script>
             </div>

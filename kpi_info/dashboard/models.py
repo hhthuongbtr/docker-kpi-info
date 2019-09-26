@@ -20,12 +20,13 @@ class Revenue(models.Model):
         return sum(transaction.pay_money for transaction in transaction_in_range)
 
     @staticmethod
-    def get_top_paid_users(start_datetime=None, end_datetime=None, server_index=None, count=None):
+    def get_top_paid_users(start_date=None, end_date=None, server_index=None, count=None):
         transactions = Revenue.objects.all()
         # Filter by date time range
-        if start_datetime and end_datetime:
+        if start_date and end_date:
             transactions = transactions.filter(
-                order_time__range = (start_datetime, end_datetime)
+                order_time__range = (datetime.datetime.combine(start_date, datetime.time.min),
+                                     datetime.datetime.combine(end_date, datetime.time.max))
             )
         # Filter by server index
         if server_index:

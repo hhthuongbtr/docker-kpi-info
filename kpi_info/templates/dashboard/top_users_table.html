@@ -1,0 +1,15 @@
+                <table class="table table-striped">
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Username</th>
+                    <th>ServerID</th>
+                    <th style="width: 40px">VND</th>
+                </tr>
+                {% for item in top_users %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.player_name }}</td>
+                    <td>{{ item.server_index }}</td>
+                    <td><span class="badge bg-red">{{ item.total_pay_money }}</span></td>
+                </tr>
+                {% endfor %}

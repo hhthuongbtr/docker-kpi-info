@@ -111,6 +111,17 @@ def top_users(request):
     server_list = Revenue.get_server_list()
     return render(request, 'dashboard/top_users.html', {'top_users': top_users, 'server_list': server_list})
 
+def top_users_update(request, start_date, end_date, server_index):
+    start_date = datetime.strptime(start_date, '%Y%m%d')
+    end_date = datetime.strptime(end_date, '%Y%m%d')
+    print("HELLO")
+    print(start_date)
+    if server_index == "All":
+        server_index = None
+    top_users = Revenue.get_top_paid_users(start_date=start_date, end_date=end_date, server_index=server_index, count=10)
+    print(top_users)
+    return render(request, 'dashboard/top_users_table.html', {'top_users': top_users})
+
 def item_sales(request):
     if request.method == 'POST':
         form = ServerDateRangeForm(request.POST)
