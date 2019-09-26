@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    <button type="submit" class="btn btn-block btn-primary">Refresh</button>
+                    <button id="refresh" type="button" class="btn btn-block btn-primary">Refresh</button>
                 </div>
             </form>
             <div class="chart">
@@ -34,6 +34,7 @@
                 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
                 <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
                 <script type="text/javascript">
+                    var date_range
                     $(function() {
                         $('input[id="daterange"]').daterangepicker({
                             opens: 'left',
@@ -41,13 +42,7 @@
                                 format: 'YYYY-MM-DD'
                             }
                         }, function(start, end, label) {
-                            chart_json_query = start.format('YYYYMMDD') + '-' + end.format('YYYYMMDD') + '-' + document.getElementById("server_index").value
-                            $.get('/api/item_sales/' + chart_json_query, function(data) {
-                                console.log(data)
-                                itemChart.data.datasets = data.datasets
-                                itemChart.update()
-                            });
-                            itemChart.update()
+                            date_range = start.format('YYYYMMDD') + '-' + end.format('YYYYMMDD')
                         });
                     });
                     $.get('{% url "item_sales" %}', function(data) {
@@ -56,6 +51,14 @@
                             data: data,
                         });
                     });
+                    document.getElementById("refresh").onclick = function() {
+                        chart_json_query = date_range + '-' + document.getElementById("server_index").value
+                        $.get('{% url "item_sales" %}' + chart_json_query, function (data) {
+                            itemChart.data.datasets = data.datasets
+                            itemChart.update()
+                        });
+                        itemChart.update()
+                    };
                 </script>
             </div>
         </div>
