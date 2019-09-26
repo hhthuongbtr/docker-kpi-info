@@ -107,7 +107,7 @@ class ChartJSONView(BaseLineChartView):
         return next_color()
 
 def top_users(request):
-    top_users = Revenue.get_top_paid_users()
+    top_users = Revenue.get_top_paid_users(count=10)
     server_list = Revenue.get_server_list()
     return render(request, 'dashboard/top_users.html', {'top_users': top_users, 'server_list': server_list})
 

@@ -1,59 +1,80 @@
 {% extends 'adminlte/base.html' %}
-{% block content_header %}
-{% endblock %}
 {% block content %}
 {% load staticfiles %}
-    <div class="box">
-        <div class="box-header">
-            <h3 class="box-title">Top paid users</h3>
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">Top Users</h3>
         </div>
-        <div class="box-body no-padding">
-            <div class="col-md-6">
-                <label>Select server</label>
-                <div class="form-group">
-                    <select class="form-control select2" style="width: 100%;">
-                        <option selected="selected">All servers</option>
-                        {% for item in server_list %}
-                        <option>{{ item }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <label>Select date time range</label>
-                <div class="input-group">
-                    <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
+        <div class="box-body">
+            <form id="daterange" method="post">{% csrf_token %}
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <select class="form-control select2" id="server_index">
+                            <option selected="selected">All</option>
+                            {% for item in server_list %}
+                            <option>{{ item }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <input type="text" class="form-control pull-right" id="daterange">
-                    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-                    <script type="text/javascript">
-                        $(function() {
-                            $('input[id="daterange"]').daterangepicker({
-                                opens: 'left'
-                            }, function(start, end, label) {
-                                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-                            });
-                        });
-                    </script>
                 </div>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="daterange">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button id="refresh" type="button" class="btn btn-block btn-primary">Refresh</button>
+                </div>
+            </form>
+            <div class="table">
+                <table class="table table-striped">
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Username</th>
+                    <th>ServerID</th>
+                    <th style="width: 40px">VND</th>
+                </tr>
+                {% for item in top_users %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.player_name }}</td>
+                    <td>{{ item.server_index }}</td>
+                    <td><span class="badge bg-red">{{ item.total_pay_money }}</span></td>
+                </tr>
+                {% endfor %}
+                <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+                <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+                <script type="text/javascript">
+                    var date_range
+                    $(function() {
+                        $('input[id="daterange"]').daterangepicker({
+                            opens: 'left',
+                            locale: {
+                                format: 'YYYY-MM-DD'
+                            }
+                        }, function(start, end, label) {
+                            date_range = start.format('YYYYMMDD') + '-' + end.format('YYYYMMDD')
+                        });
+                    });
+                    $.get('{% url "item_sales" %}', function(data) {
+                        itemChart = new Chart(document.getElementById("itemChart"), {
+                            type: 'pie',
+                            data: data,
+                        });
+                    });
+                    document.getElementById("refresh").onclick = function () {
+                        chart_json_query = date_range + '-' + document.getElementById("server_index").value
+                        $.get('{% url "item_sales" %}' + chart_json_query, function (data) {
+                            itemChart.data.datasets = data.datasets
+                            itemChart.update()
+                        });
+                        itemChart.update()
+                    };
+                </script>
             </div>
-            <table class="table table-striped">
-            <tr>
-                <th style="width: 10px">#</th>
-                <th>Username</th>
-                <th>ServerID</th>
-                <th style="width: 40px">VND</th>
-            </tr>
-            {% for item in top_users %}
-            <tr> 
-                <td>{{ forloop.counter }}</td>
-                <td>{{ item.player_name }}</td>
-                <td>{{ item.server_index }}</td>
-                <td><span class="badge bg-red">{{ item.total_pay_money }}</span></td>
-            </tr>
-            {% endfor %}
-            </table>
         </div>
     </div>
 {% endblock %}
