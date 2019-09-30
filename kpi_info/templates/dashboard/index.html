@@ -10,7 +10,7 @@
             <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
             <form id="daterange" method="post">{% csrf_token %}
                 {% block defaultdaterange %}
-                <input type="text" name="daterange" value="2019-05-31 - 2019-06-01" />
+                <input type="text" name="daterange" value="2019-09-01 - 2019-09-02" />
                 {% endblock %}
                 <input type="hidden" name="start_date" required="" id="id_start_date">
                 <input type="hidden" name="end_date" required="" id="id_end_date">
@@ -39,7 +39,7 @@
         </div>
         <div class="box-body">
             <div class="chart">
-                <canvas id="todayChart" style="height:230px"></canvas>
+                <canvas id="todayChart" style="height:500px"></canvas>
                 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
                 <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
                 <script type="text/javascript">

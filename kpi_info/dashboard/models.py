@@ -13,7 +13,7 @@ class Revenue(models.Model):
     # Get total revenue in specific time range
     def get_from_range(self, start_time, end_time):
         transaction_in_range = Revenue.objects.filter(
-            datetime__range = (start_time, end_time),
+            order_time__range = (start_time, end_time),
         ).annotate(
             hourly_revenue = Sum('pay_money')
         )

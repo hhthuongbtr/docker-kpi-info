@@ -50,18 +50,18 @@ class ChartJSONView(BaseLineChartView):
         return list(range(0, 24))
 
     def get_providers(self):
-        return ["31/06/2019 hourly", "31/06/2019 total", "01/07/2019 hourly", "01/07/2019 total"]
+        return ["Date 1 hourly", "Date 1 total", "Date 2 hourly", "Date 2 total"]
 
     def get_datasets(self):
         datasets = []
-        color_generator = self.get_colors()
+        color_generator = next_color()
         data = self.get_data()
         providers = self.get_providers()
         num = len(providers)
         for i, entry in enumerate(data):
-            color = tuple(next(color_generator))
-            dataset = {'borderColor': "rgba(%d, %d, %d, 1)" % color,
-                       'pointBackgroundColor': "rgba(%d, %d, %d, 1)" % color,
+            color = next(color_generator)
+            dataset = {'borderColor': color,
+                       'pointBackgroundColor': color,
                        'pointBorderColor': "#fff",
                        'data': entry}
             dataset['backgroundColor'] = dataset['borderColor']
@@ -84,7 +84,7 @@ class ChartJSONView(BaseLineChartView):
 
     def get_hourly_data(self, datetime):
         revenue = Revenue()
-        return revenue.get_from_range(datetime, datetime + timedelta(hours=1)) * 10
+        return revenue.get_from_range(datetime, datetime + timedelta(hours=1))
 
     def get_total_at_hour_data(self, datetime):
         revenue = Revenue()
@@ -114,12 +114,9 @@ def top_users(request):
 def top_users_update(request, start_date, end_date, server_index):
     start_date = datetime.strptime(start_date, '%Y%m%d')
     end_date = datetime.strptime(end_date, '%Y%m%d')
-    print("HELLO")
-    print(start_date)
     if server_index == "All":
         server_index = None
     top_users = Revenue.get_top_paid_users(start_date=start_date, end_date=end_date, server_index=server_index, count=10)
-    print(top_users)
     return render(request, 'dashboard/top_users_table.html', {'top_users': top_users})
 
 def item_sales(request):
